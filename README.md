@@ -1,106 +1,53 @@
-Traffic Sign Recognition Project
-This project implements a Convolutional Neural Network (CNN) to recognize traffic signs using the Keras library with TensorFlow backend. The system is trained on a dataset of traffic sign images and can classify them into 43 distinct categories. The project includes a training script to build the model and a testing script to perform real-time classification using a webcam.
-Project Structure
+# Traffic Sign Recognition
 
-Training Script (train.py): Preprocesses the dataset, builds and trains the CNN model, and saves the trained model as a pickle file.
-Testing Script (test.py): Uses the trained model to classify traffic signs in real-time from webcam input.
-Dataset: Expected to be in a folder named myData with subfolders for each class (0 to 42). A labels.csv file maps class numbers to traffic sign names.
-Output: The trained model is saved as model_trained.p.
+This project uses a Convolutional Neural Network (CNN) to classify traffic signs into 43 categories. It includes scripts for training a model and testing it with a webcam.
 
-Prerequisites
-Software Requirements
+## Requirements
 
-Python 3.x
-Libraries:
-numpy
-opencv-python
-matplotlib
-keras (with TensorFlow backend)
-scikit-learn
-pandas
+- Python 3.x
+- Libraries: `numpy`, `opencv-python`, `matplotlib`, `keras`, `tensorflow`, `scikit-learn`, `pandas`
+- Install with:
+  ```bash
+  pip install numpy opencv-python matplotlib keras tensorflow scikit-learn pandas
+  ```
+- Webcam for testing
+- Dataset in `myData` folder with subfolders for each class (0–42) and a `labels.csv` file mapping class numbers to names
 
+## Project Files
 
+- **train.py**: Trains the CNN model and saves it as `model_trained.p`
+- **test.py**: Uses the trained model for real-time traffic sign detection via webcam
+- **myData**: Folder for dataset images
+- **labels.csv**: Maps class numbers to traffic sign names
 
-Install dependencies using:
-pip install numpy opencv-python matplotlib keras tensorflow scikit-learn pandas
+## Usage
 
-Hardware Requirements
+### Training
+1. Place images in `myData` (e.g., `myData/0/`, `myData/1/`) and prepare `labels.csv`
+2. Run:
+   ```bash
+   python train.py
+   ```
+3. Outputs:
+   - Trained model (`model_trained.p`)
+   - Plots of sample images, class distribution, and training/validation metrics
 
-A webcam for real-time testing.
-Sufficient computational resources for training (GPU recommended for faster training).
+### Testing
+1. Ensure `model_trained.p` is in the directory
+2. Run:
+   ```bash
+   python test.py
+   ```
+3. Displays webcam feed with predicted class and confidence (press `q` to exit)
 
-Dataset
+## Model Details
 
-Place traffic sign images in a folder named myData, with each class in a separate subfolder (e.g., myData/0/, myData/1/, etc.).
-Provide a labels.csv file with columns for class numbers and their corresponding names (e.g., 0,Speed Limit 20 km/h).
+- **Input**: 32x32 grayscale images
+- **Architecture**: 4 convolutional layers, 2 max-pooling layers, dropout (0.5), dense layers (500 nodes, 43 classes)
+- **Training**: 10 epochs, batch size 50, data augmentation (shift, zoom, rotation)
+- **Data Split**: 64% train, 16% validation, 20% test
 
-Usage
-Training
-
-Ensure the myData folder and labels.csv file are correctly set up.
-Run the training script:python train.py
-
-
-The script will:
-Load and preprocess images (convert to grayscale, equalize histogram, normalize).
-Split data into training (64%), validation (16%), and test (20%) sets.
-Apply data augmentation to improve model robustness.
-Train the CNN model for 10 epochs.
-Save the trained model as model_trained.p.
-Display training/validation loss and accuracy plots.
-
-
-
-Testing
-
-Ensure the trained model (model_trained.p) is in the same directory.
-Run the testing script:python test.py
-
-
-The script will:
-Capture video from the default webcam.
-Preprocess each frame and predict the traffic sign class.
-Display the class name and probability on the video feed if the prediction confidence exceeds 75%.
-Press q to exit the webcam feed.
-
-
-
-Model Architecture
-The CNN model consists of:
-
-Two convolutional layers with 60 filters (5x5), followed by max-pooling.
-Two convolutional layers with 30 filters (3x3), followed by max-pooling.
-Dropout layers (0.5) to prevent overfitting.
-A flattened layer followed by a dense layer with 500 nodes.
-A final dense layer with softmax activation for 43 classes.
-Compiled with Adam optimizer (learning rate 0.001) and categorical crossentropy loss.
-
-Parameters
-
-Image Dimensions: 32x32 pixels, grayscale (1 channel).
-Batch Size: 50.
-Epochs: 10.
-Steps per Epoch: 2000.
-Data Split: 80% training (of which 20% is validation), 20% testing.
-Data Augmentation: Width/height shift (10%), zoom (20%), shear (10%), rotation (10°).
-
-Output
-
-Training: Visualizations include sample images from each class, a bar chart of class distribution, and loss/accuracy plots.
-Testing: Real-time display of webcam feed with predicted class and probability.
-
-Notes
-
-The dataset must match the expected format to avoid errors during training.
-The testing script assumes a webcam is available at index 0.
-Adjust the threshold value in the test script to modify the confidence level for predictions.
-The model may require additional tuning (e.g., more epochs, different hyperparameters) for improved accuracy.
-
-Troubleshooting
-
-Image dimension errors: Ensure all images are 32x32 pixels.
-Model loading errors: Verify that model_trained.p exists and is not corrupted.
-Webcam issues: Check webcam connectivity and index.
-Dependency errors: Ensure all required libraries are installed.
-
-For further details or issues, refer to the source code comments or contact the project maintainer.
+## Notes
+- Ensure images are 32x32 pixels
+- Webcam must be at index 0
+- Adjust `threshold` (0.75) in `test.py` for prediction confidence
